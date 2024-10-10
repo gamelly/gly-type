@@ -1,5 +1,11 @@
-ascii:
-	${CC} tools/ascii.c -Isrc -o build/ascii
+all: segments ascii
+	@
 
-segments:
-	${CC} tools/segments.c -Isrc -o build/segments
+ascii: tools/ascii.c gly_type_render.h
+	$(CC) -I. -o $@ tools/ascii.c
+
+segments: tools/segments.c gly_type_render.h
+	$(CC) -I. -o $@ tools/segments.c
+
+clear:
+	rm ascii segments

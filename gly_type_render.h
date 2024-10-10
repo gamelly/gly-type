@@ -88,10 +88,10 @@ gly_type_render(unsigned char x,
 
     sp2 = s + 2;
     sm1 = s - 1;
-    x1 = 0;
-    y1 = 0;
-    y2 = sm1 / 2;
-    y3 = sm1;
+    x1 = x;
+    y1 = y;
+    y2 = y1 + (sm1 / 2);
+    y3 = y1 + sm1;
 
     while (*t) {
         c = (*t | 0x20) - 'a';
