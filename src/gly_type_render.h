@@ -119,7 +119,7 @@ gly_type_render(unsigned char x,
                                     draw_line(x2, y3, x3, y2);
                                     break;
                                 case 1:
-                                    draw_line(x1, y1, x3, x3);
+                                    draw_line(x1, y1, x3, y3);
                                     draw_line(x1, y3, x3, y1);
                                     break;
                                 case 2:
