@@ -74,26 +74,46 @@ gly_type_render(unsigned char x,
     const void (*const draw_line)(
       unsigned char, unsigned char, unsigned char, unsigned char) = f;
 
+    static const unsigned char number_segments[] = { 0xbf, 0x07, 0x5b, 0x4f,
+                                                     0x66, 0xec, 0xfc, 0x87,
+                                                     0xff, 0xef };
+
     static const unsigned char alpha_segments[] = {
         0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x7d, 0x76, 0x89,
         0x1e, 0x30, 0x38, 0xb7, 0x37, 0x3f, 0x73, 0x67, 0xf3,
         0x6d, 0x81, 0x3e, 0xa2, 0xbe, 0x80, 0xe2, 0x88
     };
-    
+
     unsigned char c, sp2, sm1, x1, x2, x3, y1, y2, y3;
 
     sp2 = s + 2;
     sm1 = s - 1;
     x1 = 0;
     y1 = 0;
-    y2 = sm1/2;
+    y2 = sm1 / 2;
     y3 = sm1;
-
 
     while (*t) {
         c = (*t | 0x20) - 'a';
-        x2 = x1 + (sm1/2);
+        x2 = x1 + (sm1 / 2);
         x3 = x1 + sm1;
+        if ('0' <= *t && *t <= '9') {
+            unsigned char m = number_segments[*t - '0'];
+            unsigned char segment = 0;
+            while (segment < 8) {
+                switch (m & (1 << segment) ? segment : 8) {
+                    case 0: draw_line(x2, y1, x3, y1); break;
+                    case 1: draw_line(x3, y1, x3, y2); break;
+                    case 2: draw_line(x3, y2, x3, y3); break;
+                    case 3: draw_line(x1, y3, x3, y3); break;
+                    case 4: draw_line(x1, y2, x1, y3); break;
+                    case 5: draw_line(x1, y1, x1, y2); break;
+                    case 6: draw_line(x1, y2, x3, y2); break;
+                    case 7: draw_line(x1, y1, x2, y1); break;
+                }
+                segment++;
+            }
+        }
         if (c == ('k' - 'a')) {
             draw_line(x2, y2, x3, y1);
             draw_line(x2, y2, x3, y3);
@@ -113,7 +133,7 @@ gly_type_render(unsigned char x,
                     case 7: {
                         if (m & (1 << 6)) {
                             draw_line(x2, y2, x2, y3);
-                        } else if (m & 1 || m  & (1 << 4)) {
+                        } else if (m & 1 || m & (1 << 4)) {
                             draw_line(x2, y1, x2, y3);
                         } else {
                             switch ((*t - 'v' + 1) >> 1) {
