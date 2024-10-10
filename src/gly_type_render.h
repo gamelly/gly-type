@@ -79,48 +79,62 @@ gly_type_render(unsigned char x,
         0x1e, 0xf2, 0x38, 0xb7, 0x37, 0x3f, 0x73, 0x67, 0xf3,
         0x6d, 0x81, 0x3e, 0xa2, 0xbe, 0x80, 0xe2, 0x88
     };
-    char c = '\0';
+    
+    unsigned char c, sp2, sm1, x1, x2, x3, y1, y2, y3;
+
+    sp2 = s + 2;
+    sm1 = s - 1;
+    x1 = 0;
+    y1 = 0;
+    y2 = sm1/2;
+    y3 = sm1;
+
 
     while (*t) {
         c = (*t | 0x20) - 'a';
+        x2 = x1 + (sm1/2);
+        x3 = x1 + sm1;
+
         if (c <= ('z' - 'a')) {
             unsigned char m = alpha_segments[c];
             unsigned char segment = 0;
             while (segment < 8) {
-                switch (m & (1 << segment) ? segment : 9) {
-                    case 0: draw_line(0, 0, 4, 0); break;
-                    case 1: draw_line(4, 0, 4, 2); break;
-                    case 2: draw_line(4, 2, 4, 4); break;
-                    case 3: draw_line(0, 4, 4, 4); break;
-                    case 4: draw_line(0, 2, 0, 4); break;
-                    case 5: draw_line(0, 0, 0, 2); break;
-                    case 6: draw_line(0, 2, 4, 2); break;
+                switch (m & (1 << segment) ? segment : 8) {
+                    case 0: draw_line(x1, y1, x3, y1); break;
+                    case 1: draw_line(x3, y1, x3, y2); break;
+                    case 2: draw_line(x3, y2, x3, y3); break;
+                    case 3: draw_line(x1, y3, x3, y3); break;
+                    case 4: draw_line(x1, y2, x1, y3); break;
+                    case 5: draw_line(x1, y1, x1, y2); break;
+                    case 6: draw_line(x1, y2, x3, y2); break;
                     case 7: {
                         if (m & (1 << 6)) {
-                            draw_line(2, 2, 2, 4);
+                            draw_line(x2, y2, x2, y3);
                         } else if (m & 1 || m  & (1 << 4)) {
-                            draw_line(2, 0, 2, 4);
+                            draw_line(x2, y1, x2, y3);
                         } else {
                             switch ((*t - 'v' + 1) >> 1) {
                                 case 0:
-                                    draw_line(0, 2, 2, 4);
-                                    draw_line(2, 4, 4, 2);
+                                    draw_line(x1, y2, x2, y3);
+                                    draw_line(x2, y3, x3, y2);
                                     break;
                                 case 1:
-                                    draw_line(0, 0, 4, 4);
-                                    draw_line(0, 4, 4, 0);
+                                    draw_line(x1, y1, x3, x3);
+                                    draw_line(x1, y3, x3, y1);
                                     break;
                                 case 2:
-                                    draw_line(0, 0, 4, 0);
-                                    draw_line(0, 4, 4, 0);
+                                    draw_line(x1, y1, x3, y1);
+                                    draw_line(x1, y3, x3, y1);
                                     break;
                             }
                         }
                     }
+                    case 8: break;
                 }
                 segment++;
             }
         }
+        x1 += sp2;
         t++;
     }
 }

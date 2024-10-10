@@ -4,11 +4,12 @@
 
 #include "gly_type_render.h"
 
-#define SIZE 5
-char screen[SIZE*SIZE];
+unsigned int size_by_line;
+unsigned char size = 5;
+static char* text = "a";
+static char* screen = NULL;
 
-void draw_line(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2)
-{
+void draw_line(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2) {
     int dx = abs(x2 - x1);
     int dy = abs(y2 - y1);
     int sx = (x1 < x2) ? 1 : -1;
@@ -16,7 +17,9 @@ void draw_line(unsigned char x1, unsigned char y1, unsigned char x2, unsigned ch
     int err = dx - dy;
 
     while (1) {
-        screen[(y1 * SIZE) + x1] = '@';
+        if (y1 < size && x1 < size_by_line) {
+            screen[y1 * size_by_line + x1] = '@';
+        }
 
         if (x1 == x2 && y1 == y2) break;
 
@@ -32,24 +35,32 @@ void draw_line(unsigned char x1, unsigned char y1, unsigned char x2, unsigned ch
     }
 }
 
-
-void preview(char l)
-{
-    static char buf[] = "@";
-    
-    buf[0] = l;
-    
-    memset(screen, '.', sizeof(screen));
-    
-    gly_type_render(0, 0, SIZE, buf, draw_line);
-    
-    for(unsigned char i = 0; i < SIZE; i++) {
-        printf("%.*s\n", SIZE, &screen[i * SIZE]);
+int main(int argc, char *argv[]) {
+    if (argc > 1) {
+        text = argv[1];
     }
-}
+    if (argc > 2) {
+        size = strtol(argv[2], NULL, 10);
+    }
 
-int main(int argc, char *argv[])
-{
-    preview(argc <= 1? 'a': argv[1][0]);
+    unsigned int length = strlen(text);
+    unsigned int skip = length > 1 ? 2 : 0;
+    size_by_line = length * (skip + size); 
+    unsigned int size_total = size_by_line * size;
+
+    screen = malloc(size_total);
+    if (!screen) {
+        perror("Failed to allocate memory");
+        return 1;
+    }
+    memset(screen, '.', size_total);
+
+    gly_type_render(0, 0, size, text, draw_line);
+    
+    for (unsigned char i = 0; i < size; i++) {
+        printf("%.*s\n", size_by_line - skip, &screen[i * size_by_line]);
+    }
+
+    free(screen);
     return 0;
 }
