@@ -5,7 +5,6 @@ IndentWidth: 4
 UseTab: Never
 ---
 Language: Cpp
-AllowShortBlocksOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: Never
 BreakBeforeBraces: Attach
 AllowShortBlocksOnASingleLine: true
