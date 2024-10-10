@@ -98,7 +98,7 @@ gly_type_render(unsigned char x,
                     case 7: {
                         if (m & (1 << 6)) {
                             draw_line(2, 2, 2, 4);
-                        } else if (m & 1) {
+                        } else if (m & 1 || m  & (1 << 4)) {
                             draw_line(2, 0, 2, 4);
                         } else {
                             switch ((*t - 'v' + 1) >> 1) {
