@@ -1,0 +1,37 @@
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = "GlyType"
+PROJECT_NUMBER         = 0.0.7
+PROJECT_BRIEF          = "a ultra lightweight font renderer and font"
+PROJECT_LOGO           = 
+OUTPUT_DIRECTORY       = .
+RECURSIVE              = YES
+CREATE_SUBDIRS         = NO
+STRIP_CODE_COMMENTS    = NO
+CALL_GRAPH             = YES
+HAVE_DOT               = YES
+EXTRACT_ALL            = YES
+USE_MATHJAX            = YES
+EXTRACT_STATIC         = YES
+SHORT_NAMES            = NO
+OPTIMIZE_OUTPUT_FOR_C  = YES
+INLINE_GROUPED_CLASSES = YES
+INLINE_SIMPLE_STRUCTS  = YES
+TYPEDEF_HIDES_STRUCT   = YES
+SOURCE_BROWSER         = NO
+VERBATIM_HEADERS       = NO
+REPEAT_BRIEF           = NO
+PREDEFINED             = DOXYGEN=
+PLANTUML_JAR_PATH      = $(PLANTUML_JAR_PATH)
+PLANTUML_CFG_FILE      =
+PLANTUML_INCLUDE_PATH  =
+OUTPUT_LANGUAGE        = English
+FILE_PATTERNS          = *.c *.h
+EXTENSION_MAPPING      = h=c 
+INPUT                  = src
+MARKDOWN_ID_STYLE      = GITHUB
+# Theme: https://jothepro.github.io/doxygen-awesome-css/
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = NO
+HTML_EXTRA_STYLESHEET  = $(DOXYGEN_AWESOME_PATH)/doxygen-awesome.css
+HTML_COLORSTYLE        = LIGHT

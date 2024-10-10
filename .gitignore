@@ -1,3 +1,7 @@
-a.out
+*.out
+html/
+latex/
+build/*
+!build/.gitkeep
 DS_Store
 Thumbs.db

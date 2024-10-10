@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include "../src/gly_type_render.h"
+
+#include "gly_type_render.h"
 
 #define SIZE 5
 char screen[SIZE*SIZE];
