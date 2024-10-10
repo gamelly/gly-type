@@ -1,5 +1,6 @@
 *.out
 *.exe
+*.zip
 ascii
 segments
 html/
