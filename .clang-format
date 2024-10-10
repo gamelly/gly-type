@@ -6,7 +6,6 @@ UseTab: Never
 ---
 Language: Cpp
 AllowShortBlocksOnASingleLine: Empty
-AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: Never
 BreakBeforeBraces: Attach
 AllowShortBlocksOnASingleLine: true
