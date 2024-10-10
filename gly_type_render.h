@@ -1,5 +1,5 @@
 /**
- * @file src/gly_type_render.h
+ * @file gly_type_render.h
  * @short GlyType Renderer
  * @brief a ultra lightweight font renderer and font
  * @date 2024
