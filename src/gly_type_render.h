@@ -76,7 +76,7 @@ gly_type_render(unsigned char x,
 
     static const unsigned char alpha_segments[] = {
         0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x7d, 0x76, 0x89,
-        0x1e, 0xf2, 0x38, 0xb7, 0x37, 0x3f, 0x73, 0x67, 0xf3,
+        0x1e, 0x30, 0x38, 0xb7, 0x37, 0x3f, 0x73, 0x67, 0xf3,
         0x6d, 0x81, 0x3e, 0xa2, 0xbe, 0x80, 0xe2, 0x88
     };
     
@@ -94,7 +94,10 @@ gly_type_render(unsigned char x,
         c = (*t | 0x20) - 'a';
         x2 = x1 + (sm1/2);
         x3 = x1 + sm1;
-
+        if (c == ('k' - 'a')) {
+            draw_line(x2, y2, x3, y1);
+            draw_line(x2, y2, x3, y3);
+        }
         if (c <= ('z' - 'a')) {
             unsigned char m = alpha_segments[c];
             unsigned char segment = 0;
