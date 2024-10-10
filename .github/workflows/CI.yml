@@ -1,4 +1,4 @@
-name: Automatic lint
+name: ci
 
 on:
   workflow_dispatch:
