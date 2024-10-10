@@ -1,0 +1,17 @@
+---
+BasedOnStyle: Mozilla
+ColumnLimit: 80
+IndentWidth: 4
+UseTab: Never
+---
+Language: Cpp
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+BreakBeforeBraces: Attach
+AllowShortBlocksOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Inline
+DerivePointerAlignment: false
+PointerAlignment: Right
+...
