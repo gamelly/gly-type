@@ -25,10 +25,11 @@
  * it hits the first fixed segment @c G or @c A
  * .
  *
- * There are special characters, which would be @b x and @b v
+ * There are special characters, which would be @b x , @b v and @b z
  * to differentiate them from all other characters,
  * they have their own internal rendering function,
- * are flagged as segment only @c H (special).
+ * are flagged as segment @c H without segment @c G or @c A
+ * .
  *
  * @code
  * FAAAAAAAAAAAAB
@@ -76,7 +77,7 @@ gly_type_render(unsigned char x,
     static const unsigned char alpha_segments[] = {
         0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x7d, 0x76, 0x89,
         0x1e, 0xf2, 0x38, 0xb7, 0x37, 0x3f, 0x73, 0x67, 0xf3,
-        0x6d, 0x81, 0x3e, 0x80, 0xbe, 0x80, 0xe2, 0x80
+        0x6d, 0x81, 0x3e, 0xa2, 0xbe, 0x80, 0xe2, 0x88
     };
     char c = '\0';
 
@@ -95,15 +96,13 @@ gly_type_render(unsigned char x,
                     case 5: draw_line(0, 0, 0, 2); break;
                     case 6: draw_line(0, 2, 4, 2); break;
                     case 7: {
-                        if (m & 6) {
+                        if (m & (1 << 6)) {
                             draw_line(2, 2, 2, 4);
                         } else if (m & 1) {
                             draw_line(2, 0, 2, 4);
                         } else {
                             switch ((*t - 'v' + 1) >> 1) {
                                 case 0:
-                                    draw_line(0, 0, 0, 2);
-                                    draw_line(4, 0, 4, 2);
                                     draw_line(0, 2, 2, 4);
                                     draw_line(2, 4, 4, 2);
                                     break;
@@ -113,7 +112,6 @@ gly_type_render(unsigned char x,
                                     break;
                                 case 2:
                                     draw_line(0, 0, 4, 0);
-                                    draw_line(0, 4, 4, 4);
                                     draw_line(0, 4, 4, 0);
                                     break;
                             }
