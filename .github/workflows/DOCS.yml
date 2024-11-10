@@ -29,6 +29,7 @@ jobs:
           make doxfilter
       - run: |
           sudo rm html/index.html
+          ls html
           sudo mv html/gly__type__render_8h.html html/index.html
       - 
         uses: actions/configure-pages@v3
