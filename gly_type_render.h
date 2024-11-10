@@ -52,28 +52,64 @@
 #define GLY_TYPE_INT unsigned char
 #endif
 
+#ifdef DOXYGEN
 /**
- * @param [in] x in pixels
- * @param [in] y in pixels
- * @param [in] size in pixels
- * @param [in] text with null char terminator
- * @param [in] fptr clojure to drawn line with interface:
- * @n `function(x1, y1, x2, y2)`
+ * @short safety
+ * @details
+ * The @c GLY_TYPE_SAFE macro enables a length parameter to ensure safe string
+ * handling in the `gly_type_render` function. When defined, it activates an
+ * additional check to limit the number of processed characters, preventing
+ * access beyond the string's end.
+ */
+#define GLY_TYPE_SAFE
+#endif
+
+/**
+ * gly_type_render
  *
- * @par Total Size
- * @li @b width `length(text) * (size+1)`
- * @li @b height `min(count(text, 0x0A), 1) * (size+1)`
+ * The `gly_type_render` function is used to render text at specified
+ * coordinates using a line-drawing function. It employs segments to display
+ * characters and allows control over the position and size of the rendered
+ * characters.
  *
- * @par Example
+ * @pre If the optional @c len parameter is used,
+ * @ref GLY_TYPE_SAFE must be defined with `#define GLY_TYPE_SAFE` prior to
+ * including this function.
+ *
+ * @param [in] x      Horizontal coordinate (in pixels).
+ * @param [in] y      Vertical coordinate (in pixels).
+ * @param [in] size   Character size in pixels.
+ * @param [in] text   Text string to be rendered, terminated with a null
+ * character (`\0`).
+ * @param [in] fptr   Pointer to a line-drawing function, with the interface:
+ *                    `function(x1, y1, x2, y2)`
+ * @n draws a line from `(x1, y1)` to `(x2, y2)`.
+ *
+ * Optional Parameter:
+ * @param [in] len    Maximum length of characters to process, applicable only
+ * if `GLY_TYPE_SAFE` is defined. If `len` is -1, all characters in the string
+ * are processed until the null terminator.
+ *
+ * Total Size:
+ * @li Width:  `length(text) * (size + 1)`
+ * @li Height: `min(count(text, 0x0A), 1) * (size + 1)`
+ *
+ * Example Usage:
  * @code
  * gly_type_render(x, y, size, "hello world", draw_line_func);
  * @endcode
+ *
+ * This function will render the text "hello world" at the coordinates `(x, y)`,
+ * with the specified character size, using `draw_line_func` to draw the lines.
  */
 void
 gly_type_render(GLY_TYPE_INT x,
                 GLY_TYPE_INT y,
                 GLY_TYPE_INT s,
                 const char *t,
+#ifdef GLY_TYPE_SAFE
+                signed int len,
+#endif
                 const void *const f) {
     const void (*const draw_line)(
       GLY_TYPE_INT, GLY_TYPE_INT, GLY_TYPE_INT, GLY_TYPE_INT) = f;
@@ -99,6 +135,11 @@ gly_type_render(GLY_TYPE_INT x,
     y3 = y1 + sm1;
 
     while (*t) {
+#ifdef GLY_TYPE_SAFE
+        if (len != -1 && len-- <= 0) {
+            break;
+        }
+#endif
         c = (*t | 0x20) - 'a';
         x2 = x1 + (sm1 / 2);
         x3 = x1 + sm1;
