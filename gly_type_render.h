@@ -1,14 +1,14 @@
 /**
  * @file gly_type_render.h
- * @short GlyType Renderer
+ * @short gly_type_render.h
  * @brief a ultra lightweight font renderer and font
  * @date 2024
- * @version 0.0.7
+ * @version 0.1
  * @author RodrigoDornelles
  * @copyright
  * This work is free. You can redistribute it and/or modify it under the
  * terms of the Do What The Fuck You Want To Public License, Version 2,
- * as published by Sam Hocevar. See http://www.wtfpl.net/ for more details.
+ * as published by Sam Hocevar. @n See http://www.wtfpl.net/ for more details.
  *
  * @par Style
  * The font style is inspired by digital displays, but not outdated,
@@ -43,21 +43,39 @@
  * EEDDDDDDDDDDCC
  * EDDDDDDDDDDDDC
  * @endcode
+ *
+ * @par Source Code
+ *
+ * @sourcecode
  */
 
 #ifndef H_GLY_TYPE_RENDER
 #define H_GLY_TYPE_RENDER
 
 #ifndef GLY_TYPE_INT
+/**
+ * The @c GLY_TYPE_INT defines the integer type used for coordinates and sizes
+ * in @ref gly_type_render.
+ *
+ * @li @c int but size varies by compiler/architecture. Common in rendering
+ * libraries.
+ * @li @c uint8_t suitable for small screens or limited coordinate ranges.
+ * @li @c uint16_t often ideal for most cases, balancing range and
+ * memory efficiency.
+ *
+ * @par
+ * @code
+ * #define GLY_TYPE_INT uint16_t  // Recommended for most applications
+ * @endcode
+ */
 #define GLY_TYPE_INT unsigned char
 #endif
 
 #ifdef DOXYGEN
 /**
- * @short safety
  * @details
  * The @c GLY_TYPE_SAFE macro enables a length parameter to ensure safe string
- * handling in the `gly_type_render` function. When defined, it activates an
+ * handling in the @ref gly_type_render function. When defined, it activates an
  * additional check to limit the number of processed characters, preventing
  * access beyond the string's end.
  */
