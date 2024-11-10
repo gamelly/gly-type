@@ -141,7 +141,7 @@ gly_type_render(GLY_TYPE_INT x,
                         } else if (m & 1 || m & (1 << 4)) {
                             draw_line(x2, y1, x2, y3);
                         } else {
-                            switch ((*t - 'v' + 1) >> 1) {
+                            switch ((c + 'a' - 'v' + 1) >> 1) {
                                 case 0:
                                     draw_line(x1, y2, x2, y3);
                                     draw_line(x2, y3, x3, y2);
