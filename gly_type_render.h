@@ -48,6 +48,10 @@
 #ifndef H_GLY_TYPE_RENDER
 #define H_GLY_TYPE_RENDER
 
+#ifndef GLY_TYPE_INT
+#define GLY_TYPE_INT unsigned char
+#endif
+
 /**
  * @param [in] x in pixels
  * @param [in] y in pixels
@@ -66,13 +70,13 @@
  * @endcode
  */
 void
-gly_type_render(unsigned char x,
-                unsigned char y,
-                unsigned char s,
+gly_type_render(GLY_TYPE_INT x,
+                GLY_TYPE_INT y,
+                GLY_TYPE_INT s,
                 const char *t,
                 const void *const f) {
     const void (*const draw_line)(
-      unsigned char, unsigned char, unsigned char, unsigned char) = f;
+      GLY_TYPE_INT, GLY_TYPE_INT, GLY_TYPE_INT, GLY_TYPE_INT) = f;
 
     static const unsigned char number_segments[] = { 0xbf, 0x07, 0x5b, 0x4f,
                                                      0x66, 0xec, 0xfc, 0x87,
@@ -84,7 +88,8 @@ gly_type_render(unsigned char x,
         0x6d, 0x81, 0x3e, 0xa2, 0xbe, 0x80, 0xe2, 0x88
     };
 
-    unsigned char c, sp2, sm1, x1, x2, x3, y1, y2, y3;
+    unsigned char c;
+    GLY_TYPE_INT sp2, sm1, x1, x2, x3, y1, y2, y3;
 
     sp2 = s + 2;
     sm1 = s - 1;
