@@ -23,7 +23,13 @@ jobs:
         uses: actions/checkout@master
       - 
         run: |
+          make doxfilter
+      - 
+        run: |
           docker run --rm -v $(pwd):/app -w /app rodrigodornelles/doxygen doxygen
+      - run: |
+          sudo rm html/index.html
+          sudo mv html/gly__type__render_8h.html html/index.html
       - 
         uses: actions/configure-pages@v3
       -

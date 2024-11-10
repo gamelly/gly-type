@@ -1,0 +1,26 @@
+#main-nav {
+    display: none;
+}
+
+.header {
+    display: none;
+}
+
+.footer {
+    display: none;
+}
+
+.contents p:first-of-type a:nth-of-type(2) {
+    display: none;
+}
+
+#doc-content {
+    max-width: 822px;
+    margin: 0 auto;
+}
+
+.memitem, .memdoc, dl.reflist dd  {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+}

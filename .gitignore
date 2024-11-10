@@ -3,6 +3,7 @@
 *.zip
 ascii
 segments
+doxfilter
 html/
 latex/
 DS_Store

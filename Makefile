@@ -1,6 +1,9 @@
 all: segments ascii
 	@
 
+doxfilter: tools/doxfilter.cpp
+	$(CXX) -I. -o $@ $< -static
+
 ascii: tools/ascii.c gly_type_render.h
 	$(CC) -I. -o $@ tools/ascii.c
 
