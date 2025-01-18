@@ -3,7 +3,8 @@
  * @short gly_type_render.h
  * @brief a ultra lightweight font renderer and font
  * @date 2024
- * @version 0.1
+ * @version @b 0.1 0-9A-Z 8 bits segments @b 2024-11-10
+ * @version @b 0.2
  * @author RodrigoDornelles
  * @copyright
  * This work is free. You can redistribute it and/or modify it under the
@@ -15,34 +16,44 @@
  * with its straight lines and some diagonals, a modernized look,
  * and also a nice differentiation between numbers and characters.
  *
- * @par 7 Segments
- * The renderer stores the glyphs as if it were a 7-segment display,
- * thus spending only 1 bit for each line,
- * which is the trick of being so compact.
- *
- * The @b 8 bit/segment it is a special line, its size varies,
- * from bottom to top it stops when
- * it hits the first fixed segment @c G or @c A
- * .
- *
- * There are special characters, which would be @b x , @b v and @b z
- * to differentiate them from all other characters,
- * they have their own internal rendering function,
- * are flagged as segment @c H without segment @c G or @c A
- * .
+ * @par 16-bit 20 segments
+ * The renderer stores glyphs like a 7-segment display, using 1 bit per line,
+ * making storage highly compact. Additional tricks allow more lines than bits
+ * and can be visually explained in the documentation.
  *
  * @code
- * FAAAAAAAAAAAAB
- * FFAAAAAAAAABBB
- * FFF........BBB
- * FFF........BBB
- * FFGGGGGGGGGGBB
- * EEGGGGGGGGGGCC
- * EEE........CCC
- * EEE........CCC
- * EEDDDDDDDDDDCC
- * EDDDDDDDDDDDDC
+ * | segments_1     | segments_2_r1  | segments_2_r2  | segments_2_r3  |
+ * | AAAAAAABBBBBBB | .............. | DDD........EEE | ....DDDEEE.... |
+ * | AAAAAAABBBBBBB | .............. | .DDD......EEE. | ...DDD..EEE... |
+ * | HHH........CCC | .............. | ..DDD....EEE.. | ..DDD....EEE.. |
+ * | HHH........CCC | .............. | ...DDD..EEE... | .DDD......EEE. |
+ * | HHH........CCC | AAAAAAABBBBBBB | ....DDDEEE.... | DDD........EEE |
+ * | GGG........DDD | AAAAAAABBBBBBB | ....GGGFFF.... | GGG........FFF |
+ * | GGG........DDD | .............. | ...GGG..FFF... | .GGG......FFF. |
+ * | GGG........DDD | .............. | ..GGG....FFF.. | ..GGG....FFF.. |
+ * | FFFFFFFEEEEEEE | .............. | .GGG......FFF. | ...GGG..FFF... |
+ * | FFFFFFFEEEEEEE | .............. | GGG........FFF | ....GGGFFF.... |
+ *
+ * | segments_2_r4  | segments_2_r5  | segments_2_r6
+ * | ......CC...... | .............. | ......CC...... |
+ * | ......CC...... | .............. | ......CC...... |
+ * | ......CC...... | .............. | ......CC...... |
+ * | ......CC...... | .............. | ......CC...... |
+ * | ......CC...... | ......CC...... | ......CC...... |
+ * | ......CC...... | ......CC...... | .............. |
+ * | ......CC...... | ......CC...... | .............. |
+ * | ......CC...... | ......CC...... | .............. |
+ * | ......CC...... | ......CC...... | .............. |
  * @endcode
+ *
+ * @li @b segements_1 no-tricks!
+ * @li @b segements_2
+ * - @b rule_1 no-tricks!
+ * - @b rule_2 when segment_2 H is false
+ * - @b rule_3 when segment_2 H is true
+ * - @b rule_4 when segment_2 A or B is false
+ * - @b rule_5 when segment_2 A or B is true and segment_1 A or B is false
+ * - @b rule_5 when segment_2 A or B is true and segment_1 A or B is true
  *
  * @par Source Code
  *
@@ -129,20 +140,23 @@ gly_type_render(GLY_TYPE_INT x,
                 signed int len,
 #endif
                 const void *const f) {
+
     const void (*const draw_line)(
       GLY_TYPE_INT, GLY_TYPE_INT, GLY_TYPE_INT, GLY_TYPE_INT) = f;
 
-    static const unsigned char number_segments[] = { 0xbf, 0x07, 0x5b, 0x4f,
-                                                     0x66, 0xec, 0xfc, 0x87,
-                                                     0xff, 0xef };
-
-    static const unsigned char alpha_segments[] = {
-        0x77, 0x7c, 0x39, 0x5e, 0x79, 0x71, 0x7d, 0x76, 0x89,
-        0x1e, 0x30, 0x38, 0xb7, 0x37, 0x3f, 0x73, 0x67, 0xf3,
-        0x6d, 0x81, 0x3e, 0xa2, 0xbe, 0x80, 0xe2, 0x88
+    static const unsigned char segments_1[] = {
+        0x87, 0x48, 0xf9, 0xf1, 0xe1, 0xf3, 0xc3, 0xf9, 0xcc,
+        0x33, 0x63, 0xc0, 0xf0, 0xcf, 0xcf, 0xFF, 0xc7, 0x8f,
+        0xc7, 0xbb, 0x03, 0xfc, 0x84, 0xfc, 0x00, 0x84, 0x33
     };
 
-    unsigned char c;
+    static const unsigned char segments_2[] = {
+        0x9b, 0x9b, 0x07, 0x00, 0xb0, 0x01, 0x01, 0x02, 0x03,
+        0x04, 0x04, 0x31, 0x00, 0x04, 0x00, 0x00, 0x03, 0x03,
+        0x23, 0x03, 0x04, 0x00, 0xe0, 0x04, 0x78, 0x07, 0x50
+    };
+
+    unsigned char c, m1, m2, segment;
     GLY_TYPE_INT sp2, sm1, x1, x2, x3, y1, y2, y3;
 
     sp2 = s + 2;
@@ -158,69 +172,57 @@ gly_type_render(GLY_TYPE_INT x,
             break;
         }
 #endif
-        c = (*t | 0x20) - 'a';
         x2 = x1 + (sm1 / 2);
         x3 = x1 + sm1;
-        if ('0' <= *t && *t <= '9') {
-            unsigned char m = number_segments[*t - '0'];
-            unsigned char segment = 0;
-            while (segment < 8) {
-                switch (m & (1 << segment) ? segment : 8) {
-                    case 0: draw_line(x2, y1, x3, y1); break;
-                    case 1: draw_line(x3, y1, x3, y2); break;
-                    case 2: draw_line(x3, y2, x3, y3); break;
-                    case 3: draw_line(x1, y3, x3, y3); break;
-                    case 4: draw_line(x1, y2, x1, y3); break;
-                    case 5: draw_line(x1, y1, x1, y2); break;
-                    case 6: draw_line(x1, y2, x3, y2); break;
-                    case 7: draw_line(x1, y1, x2, y1); break;
-                }
-                segment++;
+
+        c = *t - '@';
+        m1 = segments_1[c];
+        m2 = segments_2[c];
+
+        segment = 0;
+        while (segment < 8) {
+            switch (m1 & (1 << segment) ? segment : 8) {
+                case 0: draw_line(x1, y1, x2, y1); break;
+                case 1: draw_line(x2, y1, x3, y1); break;
+                case 2: draw_line(x3, y1, x3, y2); break;
+                case 3: draw_line(x3, y2, x3, y3); break;
+                case 4: draw_line(x2, y3, x3, y3); break;
+                case 5: draw_line(x1, y3, x2, y3); break;
+                case 6: draw_line(x1, y2, x1, y3); break;
+                case 7: draw_line(x1, y1, x1, y2); break;
             }
+            segment++;
         }
-        if (c == ('k' - 'a')) {
-            draw_line(x2, y2, x3, y1);
-            draw_line(x2, y2, x3, y3);
-        }
-        if (c <= ('z' - 'a')) {
-            unsigned char m = alpha_segments[c];
-            unsigned char segment = 0;
-            while (segment < 8) {
-                switch (m & (1 << segment) ? segment : 8) {
-                    case 0: draw_line(x1, y1, x3, y1); break;
-                    case 1: draw_line(x3, y1, x3, y2); break;
-                    case 2: draw_line(x3, y2, x3, y3); break;
-                    case 3: draw_line(x1, y3, x3, y3); break;
-                    case 4: draw_line(x1, y2, x1, y3); break;
-                    case 5: draw_line(x1, y1, x1, y2); break;
-                    case 6: draw_line(x1, y2, x3, y2); break;
-                    case 7: {
-                        if (m & (1 << 6)) {
-                            draw_line(x2, y2, x2, y3);
-                        } else if (m & 1 || m & (1 << 4)) {
-                            draw_line(x2, y1, x2, y3);
-                        } else {
-                            switch ((c + 'a' - 'v' + 1) >> 1) {
-                                case 0:
-                                    draw_line(x1, y2, x2, y3);
-                                    draw_line(x2, y3, x3, y2);
-                                    break;
-                                case 1:
-                                    draw_line(x1, y1, x3, y3);
-                                    draw_line(x1, y3, x3, y1);
-                                    break;
-                                case 2:
-                                    draw_line(x1, y1, x3, y1);
-                                    draw_line(x1, y3, x3, y1);
-                                    break;
-                            }
-                        }
-                    }
-                    case 8: break;
-                }
-                segment++;
+
+        segment = 0;
+        while (segment < 7) {
+            switch (m2 & (1 << segment) ? segment : 7) {
+                case 0: draw_line(x1, y2, x2, y2); break;
+                case 1: draw_line(x2, y2, x3, y2); break;
+                case 2:
+                    m2 & 0x3 ? draw_line(x2, y2, x2, m1 & 0x03 ? y1 : y3)
+                             : draw_line(x2, y1, x2, y3);
+                    break;
+                case 3:
+                    m2 & 0x80 ? draw_line(x1, y2, x2, y1)
+                              : draw_line(x1, y1, x2, y2);
+                    break;
+                case 4:
+                    m2 & 0x80 ? draw_line(x2, y1, x3, y2)
+                              : draw_line(x2, y2, x3, y1);
+                    break;
+                case 5:
+                    m2 & 0x80 ? draw_line(x2, y3, x3, y2)
+                              : draw_line(x2, y2, x3, y3);
+                    break;
+                case 6:
+                    m2 & 0x80 ? draw_line(x1, y2, x2, y3)
+                              : draw_line(x1, y3, x2, y2);
+                    break;
             }
+            segment++;
         }
+
         x1 += sp2;
         t++;
     }
