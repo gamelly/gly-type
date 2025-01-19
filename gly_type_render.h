@@ -2,10 +2,17 @@
  * @file gly_type_render.h
  * @short gly_type_render.h
  * @brief a ultra lightweight font renderer and font
+ * @image html font.bmp
  * @date 2024
- * @version @b 0.1 0-9A-Z 8 bits / 9 segments @b 2024-11-10
- * @version @b 0.2 full ascii 9 bits / 20 segments @b 2025-01-19
  * @author RodrigoDornelles
+ *
+ * @version @b 0.1 0-9A-Z 8 bits / 9 segments @b 2024-11-10
+ * @version @b 0.2 full ascii 16 bits / 20 segments @b 2025-01-19
+ *
+ * @todo publish as .ttf font in npm registry
+ *
+ * @todo add new segments rules for special characters
+ *
  * @copyright
  * This work is free. You can redistribute it and/or modify it under the
  * terms of the Do What The Fuck You Want To Public License, Version 2,
@@ -54,10 +61,6 @@
  * - @b rule_4 when segment_2 A or B is false
  * - @b rule_5 when segment_2 A or B is true and segment_1 A or B is false
  * - @b rule_6 when segment_2 A or B is true and segment_1 A or B is true
- *
- * @par Source Code
- *
- * @sourcecode
  */
 
 #ifndef H_GLY_TYPE_RENDER
@@ -130,6 +133,10 @@
  *
  * This function will render the text "hello world" at the coordinates `(x, y)`,
  * with the specified character size, using `draw_line_func` to draw the lines.
+ *
+ * @par Source Code
+ *
+ * @sourcecode
  */
 void
 gly_type_render(GLY_TYPE_INT x,

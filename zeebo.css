@@ -10,6 +10,14 @@
     display: none;
 }
 
+.sm-dox {
+    display: none;
+}
+
+a[title="gly_type_render.h"] {
+    display: none;
+}
+
 .contents p:first-of-type a:nth-of-type(2) {
     display: none;
 }
@@ -23,4 +31,9 @@
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
+}
+
+img {
+    width: 33vmin;
+    image-rendering: pixelated;
 }

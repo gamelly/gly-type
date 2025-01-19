@@ -1,6 +1,10 @@
 *.out
 *.exe
 *.zip
+*.ttf
+*.bmp
+*.svg
+bmp
 ascii
 segments
 doxfilter
