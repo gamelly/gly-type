@@ -104,8 +104,8 @@ int main() {
     fwrite(palette, sizeof(uint8_t), sizeof(palette), file);
 
     for (uint8_t i = 0x20; i < 0x7e; i++) {
-        uint8_t x = (i - 0x20) % 8 * 8;
-        uint8_t y = (i - 0x20) / 8 * 8;
+        uint8_t x = (i - 0x20) % (WIDTH/8) * 8;
+        uint8_t y = (i - 0x20) / (WIDTH/8) * 8;
         gly_type_render(x, y, 7, &i, 1, draw_line);
     }
    
