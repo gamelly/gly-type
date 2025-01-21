@@ -103,7 +103,7 @@ int main() {
     fwrite(&infoHeader, sizeof(BMPInfoHeader), 1, file);
     fwrite(palette, sizeof(uint8_t), sizeof(palette), file);
 
-    for (uint8_t i = 0x20; i < 0x7e; i++) {
+    for (char i = 0x20; i < 0x7e; i++) {
         uint8_t x = (i - 0x20) % (WIDTH/8) * 8;
         uint8_t y = (i - 0x20) / (WIDTH/8) * 8;
         gly_type_render(x, y, 7, &i, 1, draw_line);
