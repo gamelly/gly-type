@@ -66,6 +66,7 @@
 #ifndef H_GLY_TYPE_RENDER
 #define H_GLY_TYPE_RENDER
 
+#if !defined(__cplusplus)
 #ifndef GLY_TYPE_INT
 /**
  * The @c GLY_TYPE_INT defines the integer type used for coordinates and sizes
@@ -81,8 +82,11 @@
  * @code
  * #define GLY_TYPE_INT uint16_t  // Recommended for most applications
  * @endcode
+ *
+ * @note <b>Not used in C++</b> as type handling is automatic.
  */
 #define GLY_TYPE_INT unsigned char
+#endif
 #endif
 
 #ifdef DOXYGEN
@@ -138,18 +142,31 @@
  *
  * @sourcecode
  */
+#if defined(__cplusplus)
+template<typename GLY_TYPE_INT>
+#endif
 void
 gly_type_render(GLY_TYPE_INT x,
                 GLY_TYPE_INT y,
-                GLY_TYPE_INT s,
+                unsigned int s,
                 const char *t,
-#ifdef GLY_TYPE_SAFE
+#if defined(GLY_TYPE_SAFE)
                 signed int len,
 #endif
-                const void *const f) {
+#if !defined(__cplusplus)
+                void *f
+#else
+                void (*const draw_line)(GLY_TYPE_INT,
+                                        GLY_TYPE_INT,
+                                        GLY_TYPE_INT,
+                                        GLY_TYPE_INT)
+#endif
+) {
 
-    const void (*const draw_line)(
+#if !defined(__cplusplus)
+    void (*const draw_line)(
       GLY_TYPE_INT, GLY_TYPE_INT, GLY_TYPE_INT, GLY_TYPE_INT) = f;
+#endif
 
     static const unsigned char segments_1[] = {
         0x00, 0x00, 0x81, 0xff, 0xbb, 0x11, 0x33, 0x80, 0x12, 0x21, 0x00, 0x00,
