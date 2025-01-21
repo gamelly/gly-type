@@ -11,7 +11,7 @@ doxfilter: tools/doxfilter.cpp
 	$(CXX) -I. -o $@ $< -static
 
 bmp: tools/bmp.cpp gly_type_render.h
-	$(CXX) -I. -o $@ tools/bmp.cpp
+	$(CXX) -std=c++20 -I. -o $@ tools/bmp.cpp
 
 font.bmp: bmp
 	./bmp
