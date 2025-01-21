@@ -1,20 +1,20 @@
 all: segments ascii
 	@
 
-doxfilter: tools/doxfilter.cpp
-	$(CXX) -I. -o $@ $< -static
-
 ascii: tools/ascii.c gly_type_render.h
-	$(CC) -I. -o $@ tools/ascii.c
+	$(CC) -std=c89 -I. -o $@ tools/ascii.c
 
-bmp: tools/bmp.c gly_type_render.h
-	$(CC) -I. -o $@ tools/bmp.c
+segments: tools/segments.c gly_type_render.h
+	$(CC) -std=c89 -I. -o $@ tools/segments.c
+
+doxfilter: tools/doxfilter.cpp
+	$(CXX) -std=c++98 -I. -o $@ $< -static
+
+bmp: tools/bmp.cpp gly_type_render.h
+	$(CXX) -std=c++98 -I. -o $@ tools/bmp.cpp
 
 font.bmp: bmp
 	./bmp
 
-segments: tools/segments.c gly_type_render.h
-	$(CC) -I. -o $@ tools/segments.c
-
 clear:
-	rm ascii segments
+	rm -f ascii segments font.bmp bmp
