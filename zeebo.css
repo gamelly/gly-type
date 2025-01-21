@@ -32,8 +32,3 @@ a[title="gly_type_render.h"] {
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
 }
-
-img {
-    width: 33vmin;
-    image-rendering: pixelated;
-}

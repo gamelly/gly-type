@@ -3,7 +3,10 @@
 *.zip
 *.ttf
 *.bmp
+*.png
 *.svg
+*.txt
+test_*
 bmp
 ascii
 segments

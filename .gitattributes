@@ -1,3 +1,4 @@
 *.h   linguist-language=C
 *.css linguist-generated
 *.cpp linguist-generated
+Makefile linguist-generated

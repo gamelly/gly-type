@@ -2,7 +2,7 @@
  * @file gly_type_render.h
  * @short gly_type_render.h
  * @brief a ultra lightweight font renderer and font
- * @image html font.bmp
+ * @image html font.png
  * @date 2024
  * @author RodrigoDornelles
  *
@@ -66,8 +66,11 @@
 #ifndef H_GLY_TYPE_RENDER
 #define H_GLY_TYPE_RENDER
 
-#if !defined(__cplusplus)
-#ifndef GLY_TYPE_INT
+#if defined(__cplusplus) && (defined(GLY_TYPE_INT) || defined(GLY_TYPE_SAFE))
+#error Do not use GLY_TYPE_INT or GLY_TYPE_SAFE in C++
+#endif
+
+#if !defined(__cplusplus) && !defined(GLY_TYPE_INT)
 /**
  * The @c GLY_TYPE_INT defines the integer type used for coordinates and sizes
  * in @ref gly_type_render.
@@ -82,14 +85,11 @@
  * @code
  * #define GLY_TYPE_INT uint16_t  // Recommended for most applications
  * @endcode
- *
- * @note <b>Not used in C++</b> as type handling is automatic.
  */
 #define GLY_TYPE_INT unsigned char
 #endif
-#endif
 
-#ifdef DOXYGEN
+#if defined(__cplusplus) || defined(DOXYGEN)
 /**
  * @details
  * The @c GLY_TYPE_SAFE macro enables a length parameter to ensure safe string
@@ -261,5 +261,20 @@ gly_type_render(GLY_TYPE_INT x,
         t++;
     }
 }
+
+#if defined(__cplusplus)
+template<typename GLY_TYPE_INT>
+void
+gly_type_render(GLY_TYPE_INT x,
+                GLY_TYPE_INT y,
+                unsigned int s,
+                const char *t,
+                void (*const draw_line)(GLY_TYPE_INT,
+                                        GLY_TYPE_INT,
+                                        GLY_TYPE_INT,
+                                        GLY_TYPE_INT)) {
+    gly_type_render(x, y, s, t, -1, draw_line);
+}
+#endif
 
 #endif

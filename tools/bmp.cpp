@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define GLY_TYPE_SAFE
 #include "gly_type_render.h"
 
 #define WIDTH 64
