@@ -6,7 +6,7 @@
 #include <regex>
 #include <string>
 #include <sstream>
-#include <map>
+#include <math.h>
 
 #include "gly_type_render.h"
 std::ofstream file;
@@ -18,7 +18,7 @@ const std::string svg_header = R"(
 <metadata>Powered by Gamely</metadata>
 <defs>
 <font horiz-adv-x="1000">
-<font-face font-family="Gamely MonoRetro" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150"/>
+<font-face font-family="Gamely MonoRetro" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="650" descent="-50"/>
 )";
 
 const std::string svg_footer = R"(</font>
@@ -28,8 +28,16 @@ const std::string svg_footer = R"(</font>
 
 void draw_line(int x1, int y1, int x2, int y2)
 {
-    file << "M " << std::dec << x1 << " " << std::dec << y1
-        << " L " << std::dec << x2 << " " << std::dec << y2 << " Z ";
+    float offset = 16.0f;
+    float angle = std::atan2(y2 - y1, x2 - x1);
+    float dx = offset * std::cos(angle + M_PI_2);
+    float dy = offset * std::sin(angle + M_PI_2);
+
+    file << " M " << std::dec << x1 + dx << " " << std::dec << y1 + dy
+         << " L " << std::dec << x1 - dx << " " << std::dec << y1 - dy
+         << " L " << std::dec << x2 - dx << " " << std::dec << y2 - dy
+         << " L " << std::dec << x2 + dx << " " << std::dec << y2 + dy
+         << " Z ";
 }
 
 int main(int argc, char* argv[]) {
@@ -51,8 +59,8 @@ int main(int argc, char* argv[]) {
             file << "glyph-name=\"" << char(unicode) << "\" ";
         }
         file << "d=\"";
-        gly_type_render<int>(100, 100, 900, &text[i], 1, draw_line);
-        file << "\"/>\n";
+        gly_type_render<int>(50, 10, -500, &text[i], 1, draw_line);
+        file << "\" horiz-adv-x=\"600\"/>\n";
     }
     file << svg_footer;
 

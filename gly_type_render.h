@@ -9,8 +9,6 @@
  * @version @b 0.1 0-9A-Z 8 bits / 9 segments @b 2024-11-10
  * @version @b 0.2 full ascii 16 bits / 20 segments @b 2025-01-19
  *
- * @todo publish as .ttf font in npm registry
- *
  * @todo add new segments rules for special characters
  *
  * @copyright
@@ -148,7 +146,7 @@ template<typename GLY_TYPE_INT>
 void
 gly_type_render(GLY_TYPE_INT x,
                 GLY_TYPE_INT y,
-                unsigned int s,
+                signed int s,
                 const char *t,
 #if defined(GLY_TYPE_SAFE)
                 signed int len,
@@ -190,15 +188,23 @@ gly_type_render(GLY_TYPE_INT x,
         0x04, 0x04, 0xc4, 0xe4, 0x78, 0x58, 0x50, 0x49, 0x04, 0x32, 0x04
     };
 
+    unsigned int sabs;
     unsigned char c, m1, m2, segment;
     GLY_TYPE_INT sp2, sm1, x1, x2, x3, y1, y2, y3;
 
-    sp2 = s + 2;
-    sm1 = s - 1;
+    sabs = s < 0? -s: s;
+    sp2 = sabs + 2;
+    sm1 = sabs - 1;
     x1 = x;
     y1 = y;
     y2 = y1 + (sm1 / 2);
     y3 = y1 + sm1;
+
+    if (s < 0) {
+        y3 = y3 ^ y1;
+        y1 = y3 ^ y1;
+        y3 = y3 ^ y1;
+    }
 
     while (*t) {
 #ifdef GLY_TYPE_SAFE

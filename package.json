@@ -9,6 +9,7 @@
     "bugs": "https://github.com/gamelly/gly-type/issues",
     "description": "Family Font inspired by digital displays with a modern and clean design.",
     "keywords": [],
+    "main": "font.ttf",
     "scripts": {
         "build": "npx svg2ttf font.svg font.ttf"
     },

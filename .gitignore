@@ -14,6 +14,7 @@ svg
 ascii
 segments
 doxfilter
+dist/
 html/
 latex/
 node_modules/
