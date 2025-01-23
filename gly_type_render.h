@@ -192,7 +192,7 @@ gly_type_render(GLY_TYPE_INT x,
     unsigned char c, m1, m2, segment;
     GLY_TYPE_INT sp2, sm1, x1, x2, x3, y1, y2, y3;
 
-    sabs = s < 0? -s: s;
+    sabs = s < 0 ? -s : s;
     sp2 = sabs + 2;
     sm1 = sabs - 1;
     x1 = x;
