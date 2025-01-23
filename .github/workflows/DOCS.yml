@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@master
       - 
         run: |
-          make doxfilter font.bmp
+          make doxfilter font.png
       - 
         run: |
           docker run --rm -v $(pwd):/app -w /app rodrigodornelles/doxygen doxygen
