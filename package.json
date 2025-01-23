@@ -13,7 +13,7 @@
     "scripts": {
         "build": "npx svg2ttf font.svg font.ttf"
     },
-    "dependencies": {
+    "devDependencies": {
         "svg2ttf": "^6.0.3"
     }
 }
