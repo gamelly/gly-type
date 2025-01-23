@@ -42,20 +42,20 @@ struct BMPInfoHeader {
     uint32_t biClrImportant{2};
 } __attribute__((packed));
 
-void draw_line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) {
-    int16_t dx = std::abs(x2 - x1);
-    int16_t dy = std::abs(y2 - y1);
-    int16_t sx = (x1 < x2) ? 1 : -1;
-    int16_t sy = (y1 < y2) ? 1 : -1;
-    int16_t err = dx - dy;
+void draw_line(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
+    int32_t dx = std::abs(x2 - x1);
+    int32_t dy = std::abs(y2 - y1);
+    int32_t sx = (x1 < x2) ? 1 : -1;
+    int32_t sy = (y1 < y2) ? 1 : -1;
+    int32_t err = dx - dy;
     while (true) {
         if (y1 < height && x1 < width) {
-            int16_t byte_index = (y1 * width + x1) / 8;
-            int16_t bit_index = (y1 * width + x1) % 8;
+            int32_t byte_index = (y1 * width + x1) / 8;
+            int32_t bit_index = (y1 * width + x1) % 8;
             bitmap[byte_index] |= (1 << (7 - bit_index));
         }
         if (x1 == x2 && y1 == y2) break;
-        int16_t err2 = err * 2;
+        int32_t err2 = err * 2;
         if (err2 > -dy) { err -= dy; x1 += sx; }
         if (err2 < dx) { err += dx; y1 += sy; }
     }
@@ -110,10 +110,10 @@ int main(int argc, char* argv[]) {
     file.write(reinterpret_cast<const char*>(palette.data()), palette.size());
 
     for (uint8_t i = 0; i < arg_text.size(); i++) {
-        uint8_t x = i % (width / 8) * 8;
-        uint8_t y = i / (width / 8) * 8;
+        uint16_t x = i % (width / 8) * 8;
+        uint16_t y = i / (width / 8) * 8;
         if (y >= height) break;
-        gly_type_render<uint8_t>(x, y, 7, &arg_text[i], 1, draw_line);
+        gly_type_render<uint16_t>(x, y, 7, &arg_text[i], 1, draw_line);
     }
 
     for (int y = 0; y < height; ++y) {
