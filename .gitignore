@@ -6,12 +6,16 @@
 *.png
 *.svg
 *.txt
+*.html
+*-lock.json
 test_*
 bmp
+svg
 ascii
 segments
 doxfilter
 html/
 latex/
+node_modules/
 DS_Store
 Thumbs.db

@@ -13,6 +13,12 @@ doxfilter: tools/doxfilter.cpp
 bmp: tools/bmp.cpp gly_type_render.h
 	$(CXX) -std=c++20 -I. -o $@ tools/bmp.cpp
 
+svg: tools/svg.cpp gly_type_render.h
+	$(CXX) -std=c++20 -I. -o $@ tools/svg.cpp
+
+font.svg: svg
+	./svg
+
 font.bmp: bmp
 	./bmp
 

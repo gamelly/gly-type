@@ -1,0 +1,18 @@
+{
+    "name": "@gamely/font-mono-retro",
+    "version": "0.2",
+    "author": "RodrigoDornelles",
+    "license": "WTFPL",
+    "homepage": "https://gamelly.github.io/gly-type/",
+    "repository": "https://github.com/gamelly/gly-type",
+    "funding": "https://github.com/sponsors/RodrigoDornelles",
+    "bugs": "https://github.com/gamelly/gly-type/issues",
+    "description": "Family Font inspired by digital displays with a modern and clean design.",
+    "keywords": [],
+    "scripts": {
+        "build": "npx svg2ttf font.svg font.ttf"
+    },
+    "dependencies": {
+        "svg2ttf": "^6.0.3"
+    }
+}
