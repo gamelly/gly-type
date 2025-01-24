@@ -62,7 +62,7 @@ void draw_line(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
 }
 
 int main(int argc, char* argv[]) {
-    const auto ascii = std::views::iota(0x20, 0x7c);
+    const auto ascii = std::views::iota(0x20, 0x7f);
     const auto pattern = std::regex(R"((\d+)x(\d+))");
 
     std::smatch match;

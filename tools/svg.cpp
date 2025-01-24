@@ -41,7 +41,7 @@ void draw_line(int x1, int y1, int x2, int y2)
 }
 
 int main(int argc, char* argv[]) {
-    const auto ascii = std::views::iota(0x20, 0x7e);
+    const auto ascii = std::views::iota(0x20, 0x7f);
     const auto text = std::string(ascii.begin(), ascii.end());
     
     file.open("font.svg");
