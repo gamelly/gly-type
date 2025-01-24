@@ -21,6 +21,19 @@
  * with its straight lines and some diagonals, a modernized look,
  * and also a nice differentiation between numbers and characters.
  *
+ * @par Features
+ *
+ * @li Readable at 5 pixels height
+ * @li Tested with computer vision @b (IA)
+ * @li Support standards @b C89 and @b C++98
+ *
+ * @par Show Case
+ *
+ * @li https://github.com/gamelly/core-native-gba
+ * @li https://github.com/gamelly/core-native-nds
+ * @li https://github.com/gamelly/core-native-ascii
+ * @li https://www.npmjs.com/package/@gamely/font-mono-retro
+ *
  * @par 16-bit 20 segments
  * The renderer stores glyphs like a 7-segment display, using 1 bit per line,
  * making storage highly compact. Additional tricks allow more lines than bits
@@ -124,11 +137,7 @@
  * if `GLY_TYPE_SAFE` is defined. If `len` is -1, all characters in the string
  * are processed until the null terminator.
  *
- * Total Size:
- * @li Width:  `length(text) * (size + 1)`
- * @li Height: `min(count(text, 0x0A), 1) * (size + 1)`
- *
- * Example Usage:
+ * @par Example Usage
  * @code
  * gly_type_render(x, y, size, "hello world", draw_line_func);
  * @endcode
