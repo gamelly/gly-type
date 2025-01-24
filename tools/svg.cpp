@@ -18,7 +18,7 @@ const std::string svg_header = R"(
 <metadata>Powered by Gamely</metadata>
 <defs>
 <font horiz-adv-x="1000">
-<font-face font-family="Gamely MonoRetro" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="650" descent="-50"/>
+<font-face font-family="Gamely MonoRetro" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="800" descent="-50"/>
 )";
 
 const std::string svg_footer = R"(</font>
@@ -59,8 +59,8 @@ int main(int argc, char* argv[]) {
             file << "glyph-name=\"" << char(unicode) << "\" ";
         }
         file << "d=\"";
-        gly_type_render<int>(50, 10, -500, &text[i], 1, draw_line);
-        file << "\" horiz-adv-x=\"600\"/>\n";
+        gly_type_render<int>(100, 15, -600, &text[i], 1, draw_line);
+        file << "\" horiz-adv-x=\"800\"/>\n";
     }
     file << svg_footer;
 
