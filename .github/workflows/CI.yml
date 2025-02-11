@@ -22,7 +22,7 @@ jobs:
       -
         uses: actions/checkout@v2
       -
-        run: sudo apt-get -y install cppcheck
+        run: sudo apt-get -y install cppcheck --no-install-recommends
       - 
         run: cppcheck gly_type_render.h
 
