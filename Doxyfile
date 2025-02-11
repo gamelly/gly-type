@@ -1,6 +1,6 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "GlyType"
-PROJECT_NUMBER         = 0.1
+PROJECT_NUMBER         = 0.2
 PROJECT_BRIEF          = "a ultra lightweight font renderer and font"
 PROJECT_LOGO           = 
 OUTPUT_DIRECTORY       = .
@@ -22,6 +22,7 @@ VERBATIM_HEADERS       = NO
 REPEAT_BRIEF           = NO
 PREDEFINED             = DOXYGEN=
 INPUT_FILTER 		   = ./doxfilter
+IMAGE_PATH             = ./
 PLANTUML_JAR_PATH      = $(PLANTUML_JAR_PATH)
 PLANTUML_CFG_FILE      =
 PLANTUML_INCLUDE_PATH  =

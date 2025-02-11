@@ -57,7 +57,8 @@ int main(int argc, char *argv[]) {
 
     gly_type_render(0, 0, size, text, draw_line);
     
-    for (unsigned char i = 0; i < size; i++) {
+    unsigned i;
+    for (i = 0; i < size; i++) {
         printf("%.*s\n", size_by_line - skip, &screen[i * size_by_line]);
     }
 

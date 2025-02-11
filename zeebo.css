@@ -10,6 +10,14 @@
     display: none;
 }
 
+.sm-dox {
+    display: none;
+}
+
+a[title="gly_type_render.h"] {
+    display: none;
+}
+
 .contents p:first-of-type a:nth-of-type(2) {
     display: none;
 }
