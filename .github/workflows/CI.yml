@@ -21,6 +21,8 @@ jobs:
     steps:
       -
         uses: actions/checkout@v2
+      -
+        run: sudo apt-get -y install cppcheck
       - 
         run: cppcheck gly_type_render.h
 
