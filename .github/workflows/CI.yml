@@ -16,6 +16,14 @@ jobs:
       - 
         run: clang-format --dry-run --Werror --verbose gly_type_render.h
 
+  cppcheck:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v2
+      - 
+        run: cppcheck gly_type_render.h
+
   test-unit:
     runs-on: ubuntu-latest
     steps:
