@@ -21,6 +21,8 @@ jobs:
     steps:
       - 
         uses: actions/checkout@master
+      -
+        run: sudo apt-get -y install imagemagick --no-install-recommends
       - 
         run: |
           make doxfilter font.png
