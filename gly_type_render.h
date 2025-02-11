@@ -9,7 +9,7 @@
  * @version @b 0.1 0-9A-Z 8 bits / 9 segments @b 2024-11-10
  * @version @b 0.2 full ascii 16 bits / 27 segments @b 2025-01-19
  *
- * @todo add new segments rules for special characters
+ * @todo make special characters more beautiful and readable
  *
  * @copyright
  * This work is free. You can redistribute it and/or modify it under the
